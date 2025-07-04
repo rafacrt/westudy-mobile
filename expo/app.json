@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "WeStudy",
+    "slug": "westudy-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": ["ios", "android"],
+    "jsEngine": "hermes",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

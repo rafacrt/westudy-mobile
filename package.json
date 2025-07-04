@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "mobile": "expo start --config ./expo/app.json"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.8.0",
@@ -57,7 +58,10 @@
     "recharts": "^2.15.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "expo": "^50.0.0",
+    "expo-status-bar": "~1.8.0",
+    "react-native": "^0.73.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -66,6 +70,7 @@
     "genkit-cli": "^1.8.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "expo-cli": "^7.0.0"
   }
 }
