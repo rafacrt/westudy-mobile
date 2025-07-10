@@ -68,14 +68,3 @@ npm run genkit:dev
 ```
 
 Isso iniciará a UI de desenvolvimento do Genkit, geralmente em `http://localhost:4000`, onde você pode testar os flows isoladamente.
-
-### 6. Rodando o App Mobile (Expo)
-
-Este repositório agora inclui um protótipo de aplicativo nativo utilizando o Expo.
-Para iniciar o app mobile execute:
-
-```bash
-npm run mobile
-```
-
-O Expo abrirá um dashboard onde você pode rodar o aplicativo em um emulador ou dispositivo físico.
