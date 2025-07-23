@@ -1,13 +1,12 @@
-
 "use client";
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/packages/auth/AuthContext';
 import { Loader2 } from 'lucide-react';
-import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { AdminNavigation } from '@/components/AdminNavigation';
-import { Button } from '@/components/ui/button';
+import { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger } from '@/web/components/ui/sidebar';
+import { AdminNavigation } from '@/web/components/AdminNavigation';
+import { Button } from '@/web/components/ui/button';
 import { PanelLeft } from 'lucide-react';
 
 

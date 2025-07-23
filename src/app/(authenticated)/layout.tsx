@@ -4,7 +4,7 @@
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/packages/auth/AuthContext';
 import { Loader2, Search, Briefcase, MessageSquare, CircleUser } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

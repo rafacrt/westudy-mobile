@@ -2,13 +2,13 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import type { ChatConversation, ChatMessage, User } from '@/types';
-import { fetchUserConversations, fetchMessagesForConversation, sendMockMessage, loadMockMessagesFromStorage } from '@/lib/mock-data';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useAuth } from '@/packages/auth/AuthContext';
+import type { ChatConversation, ChatMessage, User } from '@/packages/types';
+import { fetchUserConversations, fetchMessagesForConversation, sendMockMessage, loadMockMessagesFromStorage } from '@/packages/lib/mock-data';
+import { Avatar, AvatarFallback, AvatarImage } from '@/web/components/ui/avatar';
+import { Button } from '@/web/components/ui/button';
+import { Input } from '@/web/components/ui/input';
+import { ScrollArea } from '@/web/components/ui/scroll-area';
 import { Loader2, Send, MessageSquareText, ArrowLeft, Search, SlidersHorizontal } from 'lucide-react';
 import { format, parseISO, isToday, isYesterday, formatRelative } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -391,4 +391,3 @@ export default function MessagesPage() {
     </div>
   );
 }
-

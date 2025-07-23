@@ -1,27 +1,17 @@
-
 "use client"; 
 
-import type { Metadata, Viewport } from 'next'; 
-import { Geist } from 'next/font/google';
-import './globals.css';
-import { AuthProvider, AuthContext } from '@/contexts/AuthContext'; 
-import { Toaster } from '@/components/ui/toaster';
-import { LoginAnimationWrapper } from '@/components/LoginAnimationWrapper';
+import { GeistSans } from 'geist/font/sans';
+import '@/web/styles/globals.css';
+import { AuthProvider, AuthContext } from '@/packages/auth/AuthContext'; 
+import { Toaster } from '@/web/components/ui/toaster';
+import { LoginAnimationWrapper } from '@/web/components/LoginAnimationWrapper';
 import { usePathname, useSearchParams } from 'next/navigation'; 
 import { useEffect, useState, Suspense, useRef, useContext } from 'react'; // Added useContext
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
 
 // This component now handles client-side effects for page loading
 function PageLoadingEffectComponent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  // Assuming useAuth() provides these, or they need to be managed differently if AuthContext isn't directly providing them here
-  // For simplicity, I'll assume they are managed within AuthContext. If not, this would need adjustment.
-  // This component is now rendered conditionally, so direct use of useAuth here for these functions is fine.
   const { startPageLoading, finishPageLoading } = useContext(AuthContext); 
   const previousPathRef = useRef(pathname + searchParams.toString());
 
@@ -69,7 +59,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
       </head>
-      <body className={`${geistSans.variable} font-sans antialiased`}>
+      <body className={`${GeistSans.variable} font-sans antialiased`}>
         <AuthProvider>
           {isMounted && <PageLoadingEffectComponent />} 
           <LoginAnimationWrapper /> 

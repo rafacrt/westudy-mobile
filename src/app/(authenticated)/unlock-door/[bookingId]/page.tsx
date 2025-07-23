@@ -3,13 +3,13 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/web/components/ui/button';
 import { ArrowLeft, KeyRound, LockKeyhole, UnlockKeyhole, Loader2, CheckCircle, XCircle } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/web/components/ui/card';
 import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
-import { getRoomById } from '@/lib/mock-data'; // Para buscar o título do quarto
-import type { Booking } from '@/types';
+import { useToast } from '@/web/hooks/use-toast';
+import { getRoomById } from '@/packages/lib/mock-data'; // Para buscar o título do quarto
+import type { Booking } from '@/packages/types';
 
 
 type UnlockState = 'idle' | 'unlocking' | 'unlocked' | 'error';

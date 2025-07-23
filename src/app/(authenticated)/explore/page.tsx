@@ -1,16 +1,17 @@
-
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { ListingCard } from '@/components/ListingCard';
-import { fetchListings, roomCategories } from '@/lib/mock-data';
-import type { Listing, Category, ListingFilters } from '@/types';
+import { ListingCard } from '@/web/components/ListingCard';
+import { fetchListings, roomCategories } from '@/packages/lib/mock-data';
+import type { Listing, Category, ListingFilters } from '@/packages/types';
 import { Loader2, Search, SlidersHorizontal, MapPin, LogOut } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/web/hooks/use-toast';
+import { Skeleton } from '@/web/components/ui/skeleton';
+import { Button } from '@/web/components/ui/button';
+import { useAuth } from '@/packages/auth/AuthContext';
 import { useRouter } from 'next/navigation';
+import { ExploreSearchBar } from '@/web/components/ExploreSearchBar';
+import { CategoryMenu } from '@/web/components/CategoryMenu';
 
 const ITEMS_PER_PAGE = 8;
 
@@ -20,10 +21,10 @@ export default function ExplorePage() {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [currentFilters, setCurrentFilters] = useState<ListingFilters>({});
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   
-  const { logout } = useAuth(); // For logout button
-  const router = useRouter(); // For logout button
+  const { logout, user } = useAuth();
+  const router = useRouter();
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastListingElementRef = useCallback(
@@ -42,44 +43,47 @@ export default function ExplorePage() {
 
   const { toast } = useToast();
 
-  const loadInitialListings = useCallback(async (filters: ListingFilters) => {
-    setIsLoading(true);
-    setListings([]);
-    setPage(1);
+  const loadListings = useCallback(async (filters: ListingFilters, forPage: number) => {
     try {
-      const newItems = await fetchListings(1, ITEMS_PER_PAGE, filters);
-      setListings(newItems);
-      setPage(2);
+      const newItems = await fetchListings(forPage, ITEMS_PER_PAGE, filters);
+      if (forPage === 1) {
+        setListings(newItems);
+      } else {
+        setListings(prev => [...prev, ...newItems]);
+      }
+      setPage(forPage + 1);
       setHasMore(newItems.length === ITEMS_PER_PAGE);
     } catch (err) {
       console.error("Falha ao carregar quartos:", err);
       toast({ title: "Erro", description: "Não foi possível carregar os quartos.", variant: "destructive" });
       setHasMore(false);
-    } finally {
-      setIsLoading(false);
     }
   }, [toast]);
+
+  const handleSearch = (searchTerm: string) => {
+    setIsLoading(true);
+    setListings([]);
+    loadListings({ searchTerm, category: activeCategory }, 1).finally(() => setIsLoading(false));
+  };
+  
+  const handleSelectCategory = (categoryId: string | null) => {
+    setIsLoading(true);
+    setListings([]);
+    setActiveCategory(categoryId);
+    loadListings({ category: categoryId }, 1).finally(() => setIsLoading(false));
+  };
 
   const loadMoreListings = useCallback(async () => {
     if (isLoading || isLoadingMore || !hasMore) return;
     setIsLoadingMore(true);
-    try {
-      const newItems = await fetchListings(page, ITEMS_PER_PAGE, currentFilters);
-      setListings(prev => [...prev, ...newItems]);
-      setPage(prev => prev + 1);
-      setHasMore(newItems.length === ITEMS_PER_PAGE);
-    } catch (err) {
-      console.error("Falha ao carregar mais quartos:", err);
-      toast({ title: "Erro", description: "Não foi possível carregar mais quartos.", variant: "destructive" });
-      setHasMore(false);
-    } finally {
-      setIsLoadingMore(false);
-    }
-  }, [isLoading, isLoadingMore, hasMore, page, currentFilters, toast]);
+    await loadListings({ category: activeCategory }, page).finally(() => setIsLoadingMore(false));
+  }, [isLoading, isLoadingMore, hasMore, page, activeCategory, loadListings]);
 
   useEffect(() => {
-    loadInitialListings(currentFilters);
-  }, [currentFilters, loadInitialListings]);
+    setIsLoading(true);
+    setListings([]);
+    loadListings({ category: activeCategory }, 1).finally(() => setIsLoading(false));
+  }, [activeCategory, loadListings]);
   
   const handleLogout = () => {
     logout();
@@ -88,30 +92,8 @@ export default function ExplorePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Search and filter bar placeholder */}
-      <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm p-3 border-b">
-        <div className="flex items-center w-full max-w-lg mx-auto bg-card p-2 rounded-full shadow-md border">
-          <Search className="h-5 w-5 text-muted-foreground ml-2" />
-          <input
-            type="text"
-            placeholder="Buscar por cidade ou universidade"
-            className="flex-grow bg-transparent px-3 text-sm focus:outline-none placeholder:text-muted-foreground"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                setCurrentFilters({ searchTerm: e.currentTarget.value });
-              }
-            }}
-          />
-          <button className="p-2">
-             <SlidersHorizontal className="h-5 w-5 text-muted-foreground" />
-          </button>
-        </div>
-      </div>
-      
-      {/* Category menu placeholder */}
-      <div className="border-b px-4 py-2">
-        <p className="text-center text-sm text-muted-foreground">Menu de Categorias</p>
-      </div>
+      <ExploreSearchBar onSearch={handleSearch} />
+      <CategoryMenu categories={roomCategories} selectedCategory={activeCategory} onSelectCategory={handleSelectCategory} />
       
       <div className="container mx-auto px-4 py-6 md:px-6 lg:px-8">
         {isLoading ? (

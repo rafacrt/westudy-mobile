@@ -5,18 +5,18 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ChevronLeft, Star, Users, Loader2, School2 as DefaultUniversityIcon, MapPin, ChevronRight, FileText, Home, ShieldCheck, Bed, Bath, MessageSquareText, Map as MapIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/hooks/use-toast';
-import { getRoomById, bookMockRoom, roomCategories } from '@/lib/mock-data';
-import type { Listing, Amenity as AmenityType, UniversityArea, ListingImage } from '@/types';
-import { useAuth } from '@/contexts/AuthContext';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/web/components/ui/button';
+import { Badge } from '@/web/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/web/components/ui/card';
+import { Separator } from '@/web/components/ui/separator';
+import { useToast } from '@/web/hooks/use-toast';
+import { getRoomById, bookMockRoom, roomCategories } from '@/packages/lib/mock-data';
+import type { Listing, Amenity as AmenityType, UniversityArea, ListingImage } from '@/packages/types';
+import { useAuth } from '@/packages/auth/AuthContext';
+import { Skeleton } from '@/web/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { ExploreSearchBar } from '@/components/ExploreSearchBar'; 
-import { CategoryMenu } from '@/components/CategoryMenu'; 
+import { ExploreSearchBar } from '@/web/components/ExploreSearchBar'; 
+import { CategoryMenu } from '@/web/components/CategoryMenu'; 
 
 export default function RoomDetailPage() {
   const params = useParams();
@@ -407,4 +407,3 @@ export default function RoomDetailPage() {
     </div>
   );
 }
-

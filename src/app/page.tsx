@@ -3,7 +3,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/packages/auth/AuthContext';
 import { Loader2 } from 'lucide-react';
 
 export default function HomePage() {
@@ -14,7 +14,7 @@ export default function HomePage() {
     if (!isLoadingAuth) {
       if (isAuthenticated) {
         if (isAdmin) {
-            router.replace('/admin'); // Updated redirect to /admin
+            router.replace('/admin');
         } else {
             router.replace('/explore');
         }
